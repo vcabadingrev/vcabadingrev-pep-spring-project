@@ -30,5 +30,7 @@ public class MessageService {
 
     // **** Delete ********
 
-
+    public int deleteMessage (int targetMessageID) {
+        return messageRepository.deleteMessageByMessage_id(targetMessageID);
+    }
 }

@@ -36,6 +36,29 @@ public class MessageService {
 
     // **** Update ********
 
+    public Message updateMessage(Message newMessage) {
+        Message messageToUpdate = messageRepository.findMessageByMessage_id(newMessage.getMessage_id());
+        
+        // Check if message to update was not found in database
+        if (messageToUpdate == null) {
+            return null;
+        }
+
+        // Check validity of new message text
+        if (newMessage.getMessage_text() == null) {
+            return null;
+        }
+        if ((newMessage.getMessage_text().length()<1) || (newMessage.getMessage_text().length()>255)) {
+            return null;
+        }
+
+        // Update new message text
+        messageToUpdate.setMessage_text(newMessage.getMessage_text());
+
+        // Update message in the database
+        return messageRepository.save(messageToUpdate);
+    }
+
     // **** Delete ********
 
     public int deleteMessage (int targetMessageID) {

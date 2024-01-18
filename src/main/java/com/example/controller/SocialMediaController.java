@@ -8,6 +8,7 @@ import com.example.service.MessageService;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,16 +83,17 @@ public class SocialMediaController {
     // **** Create ********
     // **** Rewtrieve ********
 
-    // @GetMapping("accounts")
-    // public ResponseEntity<List<Account>> getAllAccounts() {
-    //     List<Account> allAccounts = accountService.getAllAccounts();
-    //     return ResponseEntity.status(200).body(allAccounts);
-    // }
-
     @GetMapping("messages")
     public ResponseEntity<List<Message>> getAllMessages() {
         List<Message> allMessages = messageService.getAllMessages();
         return ResponseEntity.status(200).body(allMessages);
+    }
+
+    @GetMapping("messages/{id}")
+    public ResponseEntity<Message> getMessageByID (@PathVariable String id) {
+        int messageId = Integer.parseInt(id);
+        Message retrievedMessage = messageService.getMessageByID(messageId);
+        return ResponseEntity.status(200).body(retrievedMessage);
     }
 
     // **** Update ********

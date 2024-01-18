@@ -2,6 +2,8 @@ package com.example.controller;
 
 import com.example.entity.Account;
 import com.example.service.AccountService;
+import com.example.entity.Message;
+import com.example.service.MessageService;
 
 import org.springframework.http.ResponseEntity;
 
@@ -27,6 +29,9 @@ public class SocialMediaController {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    MessageService messageService;
 
     // //// ACCOUNTS //////////////////////////////
 
@@ -71,5 +76,26 @@ public class SocialMediaController {
         }
         return ResponseEntity.status(401).body(targetAccount);
     }
+
+    // //// MESSAGES //////////////////////////////
+
+    // **** Create ********
+    // **** Rewtrieve ********
+
+    // @GetMapping("accounts")
+    // public ResponseEntity<List<Account>> getAllAccounts() {
+    //     List<Account> allAccounts = accountService.getAllAccounts();
+    //     return ResponseEntity.status(200).body(allAccounts);
+    // }
+
+    @GetMapping("messages")
+    public ResponseEntity<List<Message>> getAllMessages() {
+        List<Message> allMessages = messageService.getAllMessages();
+        return ResponseEntity.status(200).body(allMessages);
+    }
+
+    // **** Update ********
+    // **** Delete ********
+
 
 }

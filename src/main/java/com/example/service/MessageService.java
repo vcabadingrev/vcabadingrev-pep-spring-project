@@ -16,6 +16,10 @@ public class MessageService {
 
     // **** Create ********
 
+    public Message insertMessage (Message newMessage) {
+        return messageRepository.save(newMessage);
+    }
+
     // **** Retrieve ********
 
     public List<Message> getAllMessages() {
@@ -24,6 +28,10 @@ public class MessageService {
 
     public Message getMessageByID(int targetMessageID) {
         return messageRepository.findMessageByMessage_id(targetMessageID);
+    }
+
+    public List<Message> getMessagesByAccountID(int accountID) {
+        return messageRepository.findMessagesByPosted_by(accountID);
     }
 
     // **** Update ********

@@ -81,7 +81,34 @@ public class SocialMediaController {
     // //// MESSAGES //////////////////////////////
 
     // **** Create ********
-    // **** Rewtrieve ********
+
+    @PostMapping("messages")
+    public ResponseEntity<Message> CreateMessage(@RequestBody Message newMessage) {
+        // Validate Message and its parts are not null
+        if (newMessage == null) {
+            return ResponseEntity.status(400).body(newMessage);
+        }
+        if ( (newMessage.getPosted_by() == null) || (newMessage.getMessage_text() == null) || (newMessage.getTime_posted_epoch() == null) ) {
+            return ResponseEntity.status(400).body(newMessage);
+        }
+
+        // Validate message_text is > 1 and <256 characters in length
+        if ( (newMessage.getMessage_text().length()<1) || (newMessage.getMessage_text().length()>255) ) {
+            return ResponseEntity.status(400).body(newMessage);
+        }
+
+        // Validate posted_by exists
+        if ( !accountService.accountExists( newMessage.getPosted_by() ) ) {
+            newMessage.setMessage_text("error: posted_by does not exist");
+            return ResponseEntity.status(400).body(newMessage);
+        }
+
+        // Insert Message into database
+        Message createdMessage = messageService.insertMessage(newMessage);
+        return ResponseEntity.status(200).body(createdMessage);
+    }
+
+    // **** Retrieve ********
 
     @GetMapping("messages")
     public ResponseEntity<List<Message>> getAllMessages() {
@@ -94,6 +121,13 @@ public class SocialMediaController {
         int messageId = Integer.parseInt(id);
         Message retrievedMessage = messageService.getMessageByID(messageId);
         return ResponseEntity.status(200).body(retrievedMessage);
+    }
+
+    @GetMapping("accounts/{id}/messages")
+    public ResponseEntity<List<Message>> getMessageByAccountID (@PathVariable String id) {
+        int accountID = Integer.parseInt(id);
+        List<Message> retMessages = messageService.getMessagesByAccountID(accountID);
+        return ResponseEntity.status(200).body(retMessages);
     }
 
     // **** Update ********

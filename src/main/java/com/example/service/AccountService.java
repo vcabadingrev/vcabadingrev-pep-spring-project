@@ -32,6 +32,13 @@ public class AccountService {
         return false;
     }
 
+    public boolean accountExists(int id) {
+        if ( accountRepository.findAccountByAccount_id(id) != null ) {
+            return true;
+        }
+        return false;
+    }
+
     public Account getAccountByUsernameAndPassword (String targetUsername, String targetPassword) {
         return accountRepository.findAccountByUsernameAndPassword(targetUsername, targetPassword);
     }
